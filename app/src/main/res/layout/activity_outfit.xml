@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Outfit"
+        android:id="@+id/textView2"
+        android:textSize="50dp"
+        android:layout_alignTop="@+id/btnBackToMain"
+        android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/backToMain"
+        android:id="@+id/btnBackToMain"
+        android:onClick="goBackToMain"
+        android:layout_marginLeft="49dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="53dp" />
+
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/btnAddClothing"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest2"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/btnAddClothing"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest3"
+        android:layout_alignTop="@+id/imageViewTest"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest4"
+        android:layout_below="@+id/imageViewTest"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest5"
+        android:layout_alignTop="@+id/imageViewTest4"
+        android:layout_alignLeft="@+id/imageViewTest2"
+        android:layout_alignStart="@+id/imageViewTest2" />
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest6"
+        android:layout_alignTop="@+id/imageViewTest5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest7"
+        android:layout_below="@+id/imageViewTest4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest8"
+        android:layout_below="@+id/imageViewTest5"
+        android:layout_alignLeft="@+id/imageViewTest5"
+        android:layout_alignStart="@+id/imageViewTest5" />
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewTest9"
+        android:layout_below="@+id/imageViewTest6"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Clothing"
+        android:id="@+id/btnAddClothing"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
+
+
+
+
+</RelativeLayout>
