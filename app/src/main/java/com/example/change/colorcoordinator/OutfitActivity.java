@@ -52,8 +52,13 @@ public class OutfitActivity extends Activity {
                     case 8: iv=(ImageView)findViewById(R.id.imageViewTest8);break;
                     case 9: iv=(ImageView)findViewById(R.id.imageViewTest9);break;
                 }
-                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 0);
+                if(photoList < 10) {
+                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, 0);
+                }
+                else{
+                    Toast.makeText(v.getContext(), "Max Photos - Please delete one", 3).show();
+                }
             }
         });
 
