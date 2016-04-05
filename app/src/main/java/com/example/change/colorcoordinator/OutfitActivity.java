@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,44 +35,8 @@ public class OutfitActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outfit);
 
-        b1=(Button)findViewById(R.id.btnAddClothing);
-        //iv=(ImageView)findViewById(R.id.imageViewTest);
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //check which txtbox to use
-                switch(photoList){
-                    case 1: iv=(ImageView)findViewById(R.id.imageViewTest);break;
-                    case 2: iv=(ImageView)findViewById(R.id.imageViewTest2);break;
-                    case 3: iv=(ImageView)findViewById(R.id.imageViewTest3);break;
-                    case 4: iv=(ImageView)findViewById(R.id.imageViewTest4);break;
-                    case 5: iv=(ImageView)findViewById(R.id.imageViewTest5);break;
-                    case 6: iv=(ImageView)findViewById(R.id.imageViewTest6);break;
-                    case 7: iv=(ImageView)findViewById(R.id.imageViewTest7);break;
-                    case 8: iv=(ImageView)findViewById(R.id.imageViewTest8);break;
-                    case 9: iv=(ImageView)findViewById(R.id.imageViewTest9);break;
-                }
-                if(photoList < 10) {
-                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, 0);
-                }
-                else{
-                    Toast.makeText(v.getContext(), "Max Photos - Please delete one", 3).show();
-                }
-            }
-        });
 
-    }
-
-    //sets image to the image id location
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Bitmap bp = (Bitmap) data.getExtras().get("data");
-        iv.setImageBitmap(bp);
-        photoList++;
     }
 
 
@@ -79,5 +44,52 @@ public class OutfitActivity extends Activity {
         // Kabloey
         Intent backToMain = new Intent(v.getContext(), MainActivity.class);
         startActivityForResult(backToMain, 0);
+    }
+    public void addClothing(View view){
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        imageFile=new File(getExternalFilesDir(null),
+                "colorWilly2.jpg");
+
+        Uri tempuri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, tempuri);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        startActivityForResult(intent, 0);
+
+    }
+
+    //sets image to the image id location
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            Log.d("ColorCoordinator", "THIS WORK?");
+            switch(resultCode){
+                case Activity.RESULT_OK:
+                    if(imageFile.exists()){
+                        Toast.makeText(this, "File saved at "+imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                        iv =(ImageView)findViewById(R.id.imageViewTest);
+                        //Bitmap bp = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                        //Bitmap bp = (Bitmap) data.getExtras().get("data");
+                        //iv.setImageBitmap(bp);
+                    }
+                    else{
+                        Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case Activity.RESULT_CANCELED:
+                    break;
+                default:
+                    break;
+            }
+        }
+        if(requestCode==1){
+            iv =(ImageView)findViewById(R.id.imageViewTest);
+            //Bitmap bp = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            //iv.setImageBitmap(bp);
+            Bitmap camimage = (Bitmap) data.getExtras().get("data");
+            iv.setImageBitmap(camimage);
+        }
     }
 }
