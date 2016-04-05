@@ -45,6 +45,10 @@ public class OutfitActivity extends Activity {
         Intent backToMain = new Intent(v.getContext(), MainActivity.class);
         startActivityForResult(backToMain, 0);
     }
+
+    public void removeClothing(){
+
+    }
     public void addClothing(View view){
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

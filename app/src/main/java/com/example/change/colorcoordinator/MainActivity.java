@@ -8,7 +8,7 @@ import android.view.Window;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    public static String somevalue = "Hello from application singleton!";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

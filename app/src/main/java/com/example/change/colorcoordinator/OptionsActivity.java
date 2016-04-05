@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 /**
  * Created by Change on 4/3/2016.
@@ -21,7 +22,8 @@ public class OptionsActivity extends Activity{
     }
     public void goBackToMain(View v) {
         // Kabloey
-        Intent backToMain = new Intent(v.getContext(), MainActivity.class);
-        startActivityForResult(backToMain, 0);
+        //Intent backToMain = new Intent(v.getContext(), MainActivity.class);
+        //startActivityForResult(backToMain, 0);
+        Toast.makeText(v.getContext(), "Login Fail" + MainActivity.somevalue, 3).show();
     }
 }

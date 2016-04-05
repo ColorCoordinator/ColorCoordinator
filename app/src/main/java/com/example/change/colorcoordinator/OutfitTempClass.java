@@ -5,6 +5,7 @@ package com.example.change.colorcoordinator;
  */
 public class OutfitTempClass extends OutfitActivity{
     private int currentTextArea;
+    private int photoLocation;
 
     public int getCurrentTextArea(){
         return currentTextArea;
@@ -12,5 +13,13 @@ public class OutfitTempClass extends OutfitActivity{
 
     public void setCurrentTextArea(){
         this.currentTextArea = currentTextArea;
+    }
+
+    public int getPhotoLocation(){
+        return photoLocation;
+    }
+
+    public void setPhotoLocation(){
+        this.photoLocation = photoLocation;
     }
 }
