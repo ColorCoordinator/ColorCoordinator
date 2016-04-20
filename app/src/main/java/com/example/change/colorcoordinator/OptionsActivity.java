@@ -3,18 +3,13 @@ package com.example.change.colorcoordinator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 /**
@@ -24,11 +19,10 @@ public class OptionsActivity extends Activity{
     private int step = 1;
     private int max = 100;
     private int min = 0;
-    private SeekBar seekBar;
-    private boolean soundOn;
-    SharedPreferences soundPref;
+    private SharedPreferences soundPref;
     private int matchThreshold;
-    SharedPreferences matchThreshPref;
+    private SharedPreferences matchThreshPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,7 +38,7 @@ public class OptionsActivity extends Activity{
         view.setText("Match Threshold: " + matchThreshold);
 
         //seek bar info for match threshold
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setProgress(matchThreshold);
         seekBar.setMax((max - min) / step);
         seekBar.setOnSeekBarChangeListener(
@@ -71,6 +65,7 @@ public class OptionsActivity extends Activity{
                 }
         );
 
+        boolean soundOn;
         ToggleButton toggle = (ToggleButton)this.findViewById(R.id.tglSound);
         soundPref = getSharedPreferences("labelSound", 0);
         soundOn = soundPref.getBoolean("sound", true); //the 0 is the default value if nothing found
@@ -86,16 +81,16 @@ public class OptionsActivity extends Activity{
         });
     }
 
-    public void sounds(boolean on){
+    public void sounds(boolean off){
         AudioManager aManager;
         aManager = (AudioManager)getSystemService(AUDIO_SERVICE);
 
         // Is the toggle on?
         //boolean on = soundOn;
-        if (!on) {
+        if (!off) {
             //set saved sound
             SharedPreferences.Editor mEditor = soundPref.edit();
-            mEditor.putBoolean("sound", on).commit();//maybe use apply() not commit
+            mEditor.putBoolean("sound", off).commit();//maybe use apply() not commit
             Log.i("onToggleIsChecked", "ToggleClick Is On");
 
             //turn ringer silent
@@ -128,7 +123,7 @@ public class OptionsActivity extends Activity{
         } else {
             //set saved sound
             SharedPreferences.Editor mEditor = soundPref.edit();
-            mEditor.putBoolean("sound", on).commit();//maybe use apply() not commit
+            mEditor.putBoolean("sound", off).commit();//maybe use apply() not commit
 
             Log.i("onToggleIsChecked", "ToggleClick Is Off");
 

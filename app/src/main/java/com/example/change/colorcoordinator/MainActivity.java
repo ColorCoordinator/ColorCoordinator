@@ -11,7 +11,6 @@ public class MainActivity extends AppCompatActivity {
     public static String somevalue = "Hello from application singleton!";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         //Remove the top bar of the app
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startNewOutfit(View v) {
-        // Kabloey
         if(v.getId() == R.id.btnOutfit) {
             Intent outfitScreen = new Intent(v.getContext(), OutfitActivity.class);
             startActivityForResult(outfitScreen, 0);
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openOptionsMenu(View v) {
-        // Kabloey
         if(v.getId() == R.id.btnOptions) {
             Intent optionsScreen = new Intent(v.getContext(), OptionsActivity.class);
             startActivityForResult(optionsScreen, 0);
