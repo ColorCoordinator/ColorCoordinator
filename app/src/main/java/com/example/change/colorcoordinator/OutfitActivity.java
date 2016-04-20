@@ -2,6 +2,7 @@ package com.example.change.colorcoordinator;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -27,6 +28,8 @@ public class OutfitActivity extends Activity {
     Button b1,b2;
     ImageView iv;
     private int photoList = 1;
+    private int imageNumber;
+    SharedPreferences imagePrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,7 +38,9 @@ public class OutfitActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outfit);
 
-
+        imagePrefs = getSharedPreferences("labelImageNum", 0);
+        imageNumber  = imagePrefs.getInt("imageNumCount", 0); //the 0 is the default value if nothing found
+        Toast.makeText(this,imageNumber + "hey", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -72,11 +77,15 @@ public class OutfitActivity extends Activity {
             switch(resultCode){
                 case Activity.RESULT_OK:
                     if(imageFile.exists()){
-                        Toast.makeText(this, "File saved at "+imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this, "File saved at "+imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
                         iv =(ImageView)findViewById(R.id.imageViewTest);
                         //Bitmap bp = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
                         //Bitmap bp = (Bitmap) data.getExtras().get("data");
                         //iv.setImageBitmap(bp);
+                        imageNumber++;
+                        SharedPreferences.Editor mEditor = imagePrefs.edit();
+                        mEditor.putInt("imageNumCount", imageNumber).commit();//maybe use apply() not commit
+                        Toast.makeText(this, imageNumber + " hey", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
