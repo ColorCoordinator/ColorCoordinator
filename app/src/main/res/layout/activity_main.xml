@@ -14,12 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Color Coordinator"
-        android:layout_marginTop="47dp"
         android:id="@+id/textView"
+        android:textIsSelectable="false"
+        android:textSize="60dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textIsSelectable="false"
-        android:textSize="60dp" />
+        android:gravity="center"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -29,7 +30,9 @@
         android:onClick="startNewOutfit"
         android:textSize="30dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custom_outfitbtn2"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -40,7 +43,11 @@
         android:layout_below="@+id/btnOutfit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="69dp"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"
+        android:background="@drawable/custom_outfitbtn2"
+        android:textColor="@android:color/white"/>
 
 
 </RelativeLayout>

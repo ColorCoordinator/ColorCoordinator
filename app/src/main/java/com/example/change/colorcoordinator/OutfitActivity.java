@@ -77,15 +77,15 @@ public class OutfitActivity extends Activity {
             switch(resultCode){
                 case Activity.RESULT_OK:
                     if(imageFile.exists()){
-                        //Toast.makeText(this, "File saved at "+imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
-                        iv =(ImageView)findViewById(R.id.imageViewTest);
+                        Toast.makeText(this, "File saved at "+imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                       // iv =(ImageView)findViewById(R.id.imageViewTest);
                         //Bitmap bp = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
                         //Bitmap bp = (Bitmap) data.getExtras().get("data");
                         //iv.setImageBitmap(bp);
                         imageNumber++;
                         SharedPreferences.Editor mEditor = imagePrefs.edit();
                         mEditor.putInt("imageNumCount", imageNumber).commit();//maybe use apply() not commit
-                        Toast.makeText(this, imageNumber + " hey", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, imageNumber + " hey", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
@@ -97,12 +97,12 @@ public class OutfitActivity extends Activity {
                     break;
             }
         }
-        if(requestCode==1){
+       /* if(requestCode==1){
             iv =(ImageView)findViewById(R.id.imageViewTest);
             //Bitmap bp = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
             //iv.setImageBitmap(bp);
             Bitmap camimage = (Bitmap) data.getExtras().get("data");
             iv.setImageBitmap(camimage);
-        }
+        }*/
     }
 }

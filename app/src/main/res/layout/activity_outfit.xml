@@ -10,7 +10,8 @@
         android:text="Outfit"
         android:id="@+id/textView2"
         android:textSize="50dp"
-        android:layout_alignTop="@+id/btnBackToMain"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
 
@@ -21,87 +22,24 @@
         android:id="@+id/btnBackToMain"
         android:onClick="goBackToMain"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imageViewTest2"
-        android:layout_toStartOf="@+id/imageViewTest2"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="15dp"
+        android:background="@drawable/custom_outfitbtn"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="15dp" />
 
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest"
-        android:layout_gravity="bottom"
-        android:layout_below="@+id/btnAddClothing"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest2"
-        android:layout_gravity="bottom"
-        android:layout_below="@+id/btnAddClothing"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest3"
-        android:layout_alignTop="@+id/imageViewTest"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest4"
-        android:layout_below="@+id/imageViewTest"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest5"
-        android:layout_alignTop="@+id/imageViewTest4"
-        android:layout_alignLeft="@+id/imageViewTest2"
-        android:layout_alignStart="@+id/imageViewTest2" />
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest6"
-        android:layout_alignTop="@+id/imageViewTest5"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest7"
-        android:layout_below="@+id/imageViewTest4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest8"
-        android:layout_below="@+id/imageViewTest5"
-        android:layout_alignLeft="@+id/imageViewTest5"
-        android:layout_alignStart="@+id/imageViewTest5" />
-    <ImageView
-        android:layout_width="175dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewTest9"
-        android:layout_below="@+id/imageViewTest6"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Clothing"
         android:id="@+id/btnAddClothing"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="58dp"
+        android:onClick="addClothing"
+        android:background="@drawable/custom_outfitbtn2"
+        android:textColor="@android:color/white"
         android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:onClick="addClothing"/>
+        android:layout_centerHorizontal="true" />
 
 
 
