@@ -12,21 +12,37 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    private Uri fileUri;
+   private Uri fileUri;
+    private File imageFile;
+    private ClothingArrayAdapter adapter;
+    ArrayList<clothingItem> stuff;
+    private int itemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<clothingItem> stuff = new ArrayList<clothingItem>();
-        final ClothingArrayAdapter adapter = new ClothingArrayAdapter(this, stuff);
+        if(savedInstanceState!=null){
+            stuff=savedInstanceState.getParcelableArrayList("clothingList");
+           itemCount=savedInstanceState.getInt("itmCount");
+        }
+       else{
+            stuff = new ArrayList<clothingItem>();
+            itemCount=1;
+        }
+
+
+
+        adapter = new ClothingArrayAdapter(this, stuff);
         ListView listView  = (ListView) findViewById(R.id.listView);
         //listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
@@ -35,17 +51,26 @@ public class MainActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // create Intent to take a picture and return control to the calling application
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                 fileUri = getOutputMediaFileUri(); // create a file to save the image
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
 
                 // start the image capture Intent
                 startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                clothingItem test3 = new clothingItem();
-                test3.description ="test pic";
-                test3.filepath = fileUri.getPath();
-                adapter.add(test3);
+                */
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                imageFile=new File(getExternalFilesDir(null),
+                        "CC_"+ timeStamp+".jpg");
+
+                fileUri = Uri.fromFile(imageFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                startActivityForResult(intent, 0);
+
+
             }
         });
 
@@ -54,15 +79,9 @@ public class MainActivity extends AppCompatActivity {
 
         clothingItem it2 = new clothingItem();
         it2.description= "Roll Tide";
-
-        adapter.add(it1);
-        adapter.add(it2);
-        adapter.add(it2);
-        adapter.add(it2);
-        adapter.add(it2);
-        adapter.add(it1);
-        adapter.add(it1);
-        adapter.add(it2);
+        it1.filepath="";
+        //adapter.add(it1);
+       /* adapter.add(it2);
         adapter.add(it2);
         adapter.add(it2);
         adapter.add(it2);
@@ -73,10 +92,16 @@ public class MainActivity extends AppCompatActivity {
         adapter.add(it2);
         adapter.add(it2);
         adapter.add(it1);
+        adapter.add(it1);
+        adapter.add(it2);
+        adapter.add(it2);
+        adapter.add(it2);
+        adapter.add(it2);
+        adapter.add(it1);*/
 
     }
 
-    private Uri getOutputMediaFileUri(){
+   private Uri getOutputMediaFileUri(){
         return Uri.fromFile(getOutputMediaFile());
     }
 
@@ -114,18 +139,38 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+        //Toast.makeText(this,"ACTIVATED",Toast.LENGTH_LONG).show();
+        if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 // Image captured and saved to fileUri specified in the Intent
                 Toast.makeText(this,"TAKEN",Toast.LENGTH_LONG).show();
+                clothingItem test = new clothingItem();
+                test.description ="Item " + itemCount;
+                itemCount++;
+                test.filepath = fileUri.getPath();
+
+                adapter.add(test);
                 /*Toast.makeText(this, "Image saved to:\n" +
                         data.getData(), Toast.LENGTH_LONG).show();*/
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
+                Toast.makeText(this,"CANCELED",Toast.LENGTH_LONG).show();
             } else {
                 // Image capture failed, advise user
+                Toast.makeText(this,"NO",Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+       // savedInstanceState.putInt(STATE_SCORE, mCurrentScore);
+        //savedInstanceState.putInt(STATE_LEVEL, mCurrentLevel);
+        savedInstanceState.putParcelableArrayList("clothingList", stuff);
+        savedInstanceState.putInt("itmCount",itemCount);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 }
