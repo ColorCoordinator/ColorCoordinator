@@ -21,7 +21,7 @@ class Surface extends JPanel {
     private void doDrawing(Graphics g) {
     	
     	ArrayList<HSLColor> colors = new ArrayList<HSLColor>();
-    	
+    	/*
     	colors.add(new HSLColor(206,98,36));
 		colors.add(new HSLColor(219,95,17));
 		colors.add(new HSLColor(216,42,68));
@@ -31,7 +31,7 @@ class Surface extends JPanel {
 		colors.add(new HSLColor(37,53,26));
 		colors.add(new HSLColor(11,25,50));
 		colors.add(new HSLColor(26,60,50));
-    	
+    	*/
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setPaint(HSLColor.toRGB(200, 74, 79));
@@ -59,20 +59,42 @@ class Surface extends JPanel {
         g2d.fillRect(120,100,50,50);
         */
         try{
-        	image = ImageIO.read(new File("PatternedSkirt.png"));
+        	image = ImageIO.read(new File("Striped Tie.png"));
         }
         catch (IOException e) {
         	System.err.println(e.getMessage());
-        }
-        ColorFinder cf = new ColorFinder(image, 4);
+        }/*
+        int k = 10;
+        boolean flag = true;
+        ColorFinder cf = null;
+        while(flag){
+        flag = false;
+        cf = new ColorFinder(image, k);
+        ArrayList<Cluster> clusters = cf.clusters;
+        for(int i = 0; i < clusters.size(); i++){
+        	for(int j = i + 1; j < clusters.size(); j++){
+        		if(clusters.get(i).getCenter().getDistance(clusters.get(j).getCenter()) < 50.0){
+        			flag = true;
+        		}
+        		}
+        	}
+        k -= 1;
+        }*/
         y = 20;
-        for (HSLColor color: cf.colors){
+        Outfit o = new Outfit();
+        o.addClothing(image);
+        for (HSLColor color: o.colors){
         	g2d.setPaint(color.getRGB());
         	g2d.fillRect(80, y, 40, 40);
         	 g2d.setColor(Color.black);
              g2d.drawString(HSLColor.printColor(color), 160, y+20);
+             g2d.drawString(String.valueOf((int)color.getHue()), 240, y+20);
+             g2d.drawString(String.valueOf((int)color.getSaturation()), 300, y+20);
+             g2d.drawString(String.valueOf((int)color.getLuminance()), 360, y+20);
         	y += 40;
         }
+        g2d.setPaint(Color.black);
+        g2d.drawString(String.valueOf(o.findMatchRating()), 80, y+40);
        
    } 
 
@@ -96,7 +118,7 @@ public class ColorTester extends JFrame {
         add(new Surface());
         
         setTitle("Basic shapes");
-        setSize(350, 250);
+        setSize(700, 500);
         setLocationRelativeTo(null);        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

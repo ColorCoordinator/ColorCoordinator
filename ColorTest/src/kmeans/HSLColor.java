@@ -189,17 +189,17 @@ public class HSLColor
 	 */
 	public static float[] fromRGB(Color color)
 	{
-		//  Get RGB values in the range 0 - 1
+		//  Get RYB values in the range 0 - 1
 
-		float[] rgb = color.getRGBColorComponents( null );
-		float r = rgb[0];
-		float g = rgb[1];
-		float b = rgb[2];
+		double[] ryb = rgb2ryb(color);
+		float r = (float) ryb[0];
+		float y = (float) ryb[1];
+		float b = (float) ryb[2];
 
-		//	Minimum and Maximum RGB values are used in the HSL calculations
+		//	Minimum and Maximum RYB values are used in the HSL calculations
 
-		float min = Math.min(r, Math.min(g, b));
-		float max = Math.max(r, Math.max(g, b));
+		float min = Math.min(r, Math.min(y, b));
+		float max = Math.max(r, Math.max(y, b));
 
 		//  Calculate the Hue
 
@@ -208,11 +208,11 @@ public class HSLColor
 		if (max == min)
 			h = 0;
 		else if (max == r)
-			h = ((60 * (g - b) / (max - min)) + 360) % 360;
-		else if (max == g)
+			h = ((60 * (y - b) / (max - min)) + 360) % 360;
+		else if (max == y)
 			h = (60 * (b - r) / (max - min)) + 120;
 		else if (max == b)
-			h = (60 * (r - g) / (max - min)) + 240;
+			h = (60 * (r - y) / (max - min)) + 240;
 
 		//  Calculate the Luminance
 
@@ -324,14 +324,16 @@ public class HSLColor
 		float p = 2 * l - q;
 
 		float r = Math.max(0, HueToRGB(p, q, h + (1.0f / 3.0f)));
-		float g = Math.max(0, HueToRGB(p, q, h));
+		float y = Math.max(0, HueToRGB(p, q, h));
 		float b = Math.max(0, HueToRGB(p, q, h - (1.0f / 3.0f)));
 
 		r = Math.min(r, 1.0f);
-		g = Math.min(g, 1.0f);
+		y = Math.min(y, 1.0f);
 		b = Math.min(b, 1.0f);
+		
+		double[] ryb = {(double)r,(double)y,(double)b};
 
-		return new Color(r, g, b, alpha);
+		return ryb2rgb(ryb,alpha);
 	}
 
 	private static float HueToRGB(float p, float q, float h)
@@ -358,31 +360,88 @@ public class HSLColor
    		return p;
 	}
 	
+	private static Color ryb2rgb(double[] ryb, float alpha){
+		
+		double R = (double) ryb[0];
+		double Y = (double) ryb[1];
+		double B = (double) ryb[2];
+		double r,y,b,newR, newG, newB, Iw;
+		
+		Iw = Math.min(Math.min(R, Y), B);
+		r = R - Iw;
+		y = Y - Iw;
+		b = B - Iw;
+		
+		newR = r + y - Math.min(y, b);
+		newG = y + (2*Math.min(y, b));
+		newB = 2*(b - Math.min(y, b));
+		
+		double n = Math.max(Math.max(newR, newG ), newB) / Math.max(Math.max(r, y), b);
+		newR = newR / n;
+		newG = newG / n;
+		newB = newB / n;
+		
+		double Ib = Math.min(Math.min(1 - R, 1 - Y), 1 - B);
+		newR = newR + Ib;
+		newG = newG + Ib;
+		newB = newB + Ib;
+		Color ret = new Color((float)newR,(float)newG,(float)newB, alpha);
+		return ret;
+	}
+	
+	private static double[] rgb2ryb(Color color){
+		
+		float[] rgb = color.getRGBColorComponents( null );
+		double R = (double) rgb[0];
+		double G = (double) rgb[1];
+		double B = (double) rgb[2];
+		double r,g,b,newR, newY, newB, Iw;
+		
+		Iw = Math.min(Math.min(R, G), B);
+		r = R - Iw;
+		g = G - Iw;
+		b = B - Iw;
+		
+		newR = r - Math.min(r, g);
+		newY = (g + Math.min(r, g)) / 2;
+		newB = (b + g - Math.min(r, g)) / 2;
+		
+		double n = Math.max(Math.max(newR, newY ), newB) / Math.max(Math.max(r, g), b);
+		newR = newR / n;
+		newY = newY / n;
+		newB = newB / n;
+		
+		double Ib = Math.min(Math.min(1 - R, 1 - G), 1 - B);
+		newR = newR + Ib;
+		newY = newY + Ib;
+		newB = newB + Ib;
+		double[] ret = {newR,newY,newB};
+		return ret;
+	}
+	
 	public static String printColor(HSLColor c){
 		int s = (int) c.getSaturation();
 		int l = (int) c.getLuminance();
-		if(l < 10){return "black";}
-		if(l > 90){return "white";}
+		if(l < 15){return "white";}
+		if(l > 85){return "black";}
 		if(s < 10){return "gray";}
 		int hue = (int) c.getHue();
-		if(hue < 10){
+		if(hue < 15){
 			return "red";
 		}
-		if(hue < 20){return "red-orange";}
-		if(hue < 40){return "orange/brown";}
-		if(hue < 50){return "orange-yellow";}
-		if(hue < 60){return "yellow";}
-		if(hue < 80){return "yellow-green";}
-		if(hue < 140){return "green";}
-		if(hue < 169){return "green-cyan";}
-		if(hue < 200){return "cyan";}
-		if(hue < 220){return "cyan-blue";}
-		if(hue < 240){return "blue";}
-		if(hue < 280){return "blue-magenta";}
-		if(hue < 320){return "magenta";}
-		if(hue < 330){return "magenta-pink";}
-		if(hue < 345){return "pink";}
-		if(hue < 355){return "pink-red";}
+		if(hue < 45){return "red-orange";}
+		if(hue < 75){return "orange/brown";}
+		if(hue < 105){return "orange-yellow";}
+		if(hue < 135){return "yellow";}
+		if(hue < 165){return "yellow-green";}
+		if(hue < 195){return "green";}
+		if(hue < 225){return "teal";}
+		if(hue < 255){return "blue";}
+		if(hue < 285){return "violet";}
+		if(hue < 315){return "purple";}
+		if(hue < 345){return "magenta";}
 		else{return "red";}
 	}
+	
+	
 }

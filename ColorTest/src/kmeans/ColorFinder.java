@@ -19,6 +19,10 @@ public class ColorFinder {
     public ArrayList<HSLColor> primaryHues = new ArrayList<HSLColor>();
 	public static BufferedImage image;
 	
+	public ArrayList getColors(){
+		return colors;
+	}
+	
 	public int getNearestClusterIndex(Point pt){
 		double smallest = 442; //This is the maximum value between points (255,255,255) and (0,0,0)
 		int clusterIndex = -1;
@@ -32,7 +36,7 @@ public class ColorFinder {
 		return clusterIndex;
 	}
 	
-	public void getPrimaryHues(){
+/*	public void getPrimaryHues(){
 		for(int i = 0; i < colors.size(); i++){
 			boolean flag = true;
 			for(int j = i+1; j<colors.size(); j++){
@@ -45,7 +49,7 @@ public class ColorFinder {
 			if(flag){primaryHues.add(colors.get(i));
 			}
 		}
-	}
+	}*/
 	public ColorFinder(BufferedImage img, int k){
 		
 		
@@ -93,15 +97,12 @@ public class ColorFinder {
 		int index = getNearestClusterIndex(p);
 		clusters.get(index).addPoint(p);
 	}
-	System.out.println(iters);
 	for(Cluster c : clusters){
 	Point center = c.getCenter();
-	System.out.printf("cluster %d: %d %d %d; number of pixels: %d\n", 
-			clusters.indexOf(c),(int) center.x,(int) center.y,(int) center.z,c.points.size());
 	HSLColor color = new HSLColor(new Color((int)center.x, (int)center.y, (int)center.z));
 	colors.add(color);
 	}
-	getPrimaryHues();
+	//getPrimaryHues();
 	/*for(HSLColor c : primaryHues){
 		//System.out.println(c.toString());
 		if(c.getLuminance() > 90){System.out.println("White");}
