@@ -1,0 +1,89 @@
+package kmeans;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Clothing {
+
+	boolean pattern;
+	boolean black = false, white=false, gray=false, brown = false, navy = false;
+	ArrayList<HSLColor> colors = null;
+	ArrayList<HSLColor> primaryHues = new ArrayList<HSLColor>();
+	boolean selected;
+	ColorScheme scheme;
+	
+	public Clothing(ArrayList<HSLColor> c){
+		colors = c;
+		pattern = false;
+		findPrimaryHues();
+		pattern = true;
+	}
+	
+	public Clothing(BufferedImage img){
+		
+	}
+	
+	public boolean hasBlack(){
+		return black;
+	}
+	public boolean hasWhite(){
+		return white;
+	}
+	public boolean hasBrown(){
+		return brown;
+	}
+	public boolean hasGray(){
+		return gray;
+	}
+	public boolean hasNavy(){
+		return navy;
+	}
+	
+	public void findPrimaryHues(){
+		for(HSLColor color : colors){
+			boolean add = true;
+			for(HSLColor c : primaryHues){
+				if(color.getLuminance()>= 75 && 10 < color.getHue() && color.getHue() < 50){
+					brown = true;
+				}
+				else if(color.getLuminance() >=75 && 220 < color.getHue() && color.getHue() < 255){
+					navy = true;
+				}
+				if(color.getLuminance()<= 10){
+					add=false;
+					white = true;
+					break;
+				}
+				else if(color.getLuminance() >= 90){
+					add=false;
+					black=true;
+					break;
+				}
+				else if(color.getSaturation() <= 7){
+					add=false;
+					gray=true;
+					break;
+				}
+				else if(color.getDegreesBetween(c) < 30){
+					add = false;
+					break;
+				}
+				
+			}
+			if(add){
+				primaryHues.add(color);
+			}
+			else{
+					add = true;
+			}
+		}
+	}
+	
+	public void findScheme(){
+		scheme =  ColorScheme.findScheme(primaryHues);
+	}
+	
+	public ColorScheme getScheme(){
+		return scheme;
+	}
+}

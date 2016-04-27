@@ -1,0 +1,59 @@
+package kmeans;
+
+import java.util.ArrayList;
+
+public class Outfit {
+
+		public ArrayList<HSLColor> colors = new ArrayList<HSLColor>();
+		public ArrayList<Clothing> clothes = new ArrayList<Clothing>();
+		public ColorScheme scheme;
+		public String schemeName;
+		public int matchRating;
+		
+		public Outfit(){
+			
+		}
+		
+		public void addClothing(Clothing clothing){
+			clothes.add(clothing);
+			clothing.findPrimaryHues();
+			for(HSLColor c: clothing.primaryHues){
+				colors.add(c);
+			}
+		}
+		
+		public int findMatchRating(){
+			scheme = ColorScheme.findScheme(colors);
+			schemeName = scheme.getName();
+			int base = 180;
+			int score = 360;
+			switch(schemeName){
+			case "Complementary": base=180; break;
+			case "Triad": base=120; break;
+			case "Tetrad": base=90; break;
+			}
+			if(schemeName == "Analagous"){
+				for(int i = 0; i < colors.size()-1; i++){
+					int deg = (int) colors.get(i).getDegreesBetween(colors.get(i+1));
+					if(deg > 60){
+						score -= deg - 60;
+					}
+				}
+			}
+			else if(schemeName == "Split Complementary"){
+				for(int i = 0; i < colors.size()-1; i++){
+					int deg = (int) colors.get(i).getDegreesBetween(colors.get(i+1));
+					score -= Math.min(Math.abs(150 - deg), Math.abs(70 - deg));
+				}
+			}
+			else{
+				for(int i = 0; i < colors.size()-1; i++){
+					int deg = (int) colors.get(i).getDegreesBetween(colors.get(i+1));
+					score -= Math.abs(base - deg);
+				}
+			}
+			matchRating = score/360;
+			return matchRating;
+		}
+		
+}

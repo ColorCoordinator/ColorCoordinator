@@ -1,0 +1,116 @@
+package kmeans;
+
+import java.util.ArrayList;
+
+public class Outfit {
+
+		public ArrayList<HSLColor> colors = new ArrayList<HSLColor>();
+		public ArrayList<HSLColor> primaryHues = new ArrayList<HSLColor>();
+		public ArrayList<Clothing> clothes = new ArrayList<Clothing>();
+		public ColorScheme scheme;
+		public String schemeName;
+		public int matchRating;
+		public boolean white = false;
+		public boolean black = false;
+		public boolean gray = false;
+		public boolean brown = false;
+		public boolean navy = false;
+		
+		public Outfit(){
+			
+		}
+		
+		public void updateFlags(){
+			for(Clothing c: clothes){
+				black = black | c.hasBlack();
+				brown = brown | c.hasBlack();
+				gray = gray | c.hasBlack();
+				white = white | c.hasBlack();
+				navy = navy | c.hasBlack();
+			}
+		}
+		
+		
+		public void addClothing(Clothing clothing){
+			clothes.add(clothing);
+			clothing.findPrimaryHues();
+			for(HSLColor c: clothing.primaryHues){
+				colors.add(c);
+			}
+		}
+		
+		public void findPrimaryHues(){
+			for(HSLColor color : colors){
+				boolean add = true;
+				for(HSLColor c : primaryHues){
+					if(color.getLuminance()<= 10){
+						add=false;
+						white = true;
+						break;
+					}
+					else if(color.getLuminance() >= 90){
+						add=false;
+						black=true;
+						break;
+					}
+					else if(color.getSaturation() <= 7){
+						add=false;
+						gray=true;
+						break;
+					}
+					else if(color.getDegreesBetween(c) < 30){
+						add = false;
+						break;
+					}
+					
+				}
+				if(add){
+					primaryHues.add(color);
+				}
+				else{
+						add = true;
+				}
+			}
+		}
+		
+		public int findMatchRating(){
+			scheme = ColorScheme.findScheme(colors);
+			schemeName = scheme.getName();
+			int base = 180;
+			int score = 100;
+			switch(schemeName){
+			case "Complementary": base=180; break;
+			case "Triad": base=120; break;
+			case "Tetrad": base=90; break;
+			}
+			if(schemeName == "Analagous"){
+				for(int i = 0; i < colors.size()-1; i++){
+					int deg = (int) colors.get(i).getDegreesBetween(colors.get(i+1));
+					if(deg > 60){
+						score -= deg - 60;
+					}
+				}
+			}
+			else if(schemeName == "Split Complementary"){
+				for(int i = 0; i < colors.size()-1; i++){
+					int deg = (int) colors.get(i).getDegreesBetween(colors.get(i+1));
+					score -= Math.min(Math.abs(150 - deg), Math.abs(70 - deg));
+				}
+			}
+			else if(schemeName == "Tetrad"){
+				for(int i = 0; i < colors.size()-1; i++){
+					int deg = (int) colors.get(i).getDegreesBetween(colors.get(i+1));
+					score -= Math.min(Math.abs(base - deg),Math.abs(base*2 - deg));
+				}
+			}
+			else{
+				for(int i = 0; i < colors.size()-1; i++){
+					int deg = (int) colors.get(i).getDegreesBetween(colors.get(i+1));
+					score -= Math.abs(base - deg);
+				}
+			}
+			matchRating = score;
+			return matchRating;
+		}
+		
+}

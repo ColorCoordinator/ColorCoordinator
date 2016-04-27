@@ -1,0 +1,62 @@
+package kmeans;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Clothing {
+
+	boolean pattern;
+	boolean black = false, white=false, gray=false;
+	ArrayList<HSLColor> colors = null;
+	ArrayList<Float> primaryHues = new ArrayList<Float>();
+	boolean selected;
+	ColorScheme scheme;
+	
+	public Clothing(ArrayList<HSLColor> c){
+		colors = c;
+		pattern = false;
+		findPrimaryHues();
+		pattern = true;
+	}
+	
+	private void findPrimaryHues(){
+		for(HSLColor color : colors){
+			boolean add = true;
+			for(Float hue : primaryHues){
+				if(color.getLuminance()<= 15){
+					add=false;
+					black = true;
+					break;
+				}
+				else if(color.getLuminance() >= 85){
+					add=false;
+					white=true;
+					break;
+				}
+				else if(color.getSaturation() <= 15){
+					add=false;
+					gray=true;
+					break;
+				}
+				else if(color.getDegreesBetween(hue) <= 15){
+					add = false;
+					break;
+				}
+				
+			}
+			if(add){
+				primaryHues.add((Float) color.getHue());
+			}
+			else{
+					add = true;
+			}
+		}
+	}
+	
+	private ColorScheme findScheme(){
+		return ColorScheme.findScheme(colors);
+	}
+	
+	public ColorScheme getScheme(){
+		return scheme;
+	}
+}
